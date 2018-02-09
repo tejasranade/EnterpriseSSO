@@ -1,0 +1,14 @@
+<ActionBar class="action-bar">
+    <Label class="action-bar-title" text="Home"></Label>
+</ActionBar>
+
+
+<GridLayout class="page">
+    <StackLayout #mainContainer class="main-container">
+            <Button 
+            class="btn btn-primary btn-active" 
+            id="button" 
+            [text]="isLoggedIn ? 'Logout' : 'Login'"
+            (tap)="submit()"></Button>
+    </StackLayout>    
+</GridLayout>
