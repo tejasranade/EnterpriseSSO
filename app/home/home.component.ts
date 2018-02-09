@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { Button } from "ui/button";
 
 import { Kinvey } from 'kinvey-nativescript-sdk';
@@ -10,22 +10,26 @@ import { Kinvey } from 'kinvey-nativescript-sdk';
     templateUrl: "./home.component.html"
 })
 export class HomeComponent implements OnInit {
-    isLoggedIn:boolean = false;
+
+    @ViewChild("loginButton") loginButton: ElementRef;
 
     constructor() {
     }
 
-    ngOnInit(): void {
+    ngOnInit(): void { 
+        let viewButton: Button = this.loginButton.nativeElement;        
+        viewButton.text = (Kinvey.User.getActiveUser() == null ? `Login` : `Logout`);
     }
 
     submit() {        
+        let viewButton: Button = this.loginButton.nativeElement;
         if (Kinvey.User.getActiveUser() == null){
             Kinvey.User.loginWithMIC('http://example.com', Kinvey.AuthorizationGrant.AuthorizationCodeLoginPage, { version: 'v2' })
             
             .then((user: Kinvey.User) => {
                 alert("Logged in!");
-                console.log("user: " + user);
-                this.isLoggedIn = true;
+                console.log("user: " + JSON.stringify(user));
+                viewButton.text = `Logout`;
             })
             .catch((error: Kinvey.BaseError) => {
                 alert("Error!");
@@ -33,12 +37,13 @@ export class HomeComponent implements OnInit {
             });            
         }
         else {
+            let viewButton: Button = this.loginButton.nativeElement;
+    
             Kinvey.User.logout()
             .then(()=> {
-                this.isLoggedIn = false;
+                alert("Logged out!");
+                viewButton.text = `Login`;                
             });
         }
-
-
     }
 }

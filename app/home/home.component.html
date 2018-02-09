@@ -5,10 +5,9 @@
 
 <GridLayout class="page">
     <StackLayout #mainContainer class="main-container">
-            <Button 
+            <Button #loginButton
             class="btn btn-primary btn-active" 
-            id="button" 
-            [text]="isLoggedIn ? 'Logout' : 'Login'"
+            
             (tap)="submit()"></Button>
-    </StackLayout>    
+    </StackLayout>
 </GridLayout>
